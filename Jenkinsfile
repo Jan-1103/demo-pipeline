@@ -1,28 +1,37 @@
 pipeline {
     agent any
-
     stages {
-        stage('Checkout') {
+        stage('Checkout SCM') {
             steps {
-                echo 'Checking out source code...'
+                checkout scm
             }
         }
-        stage('Build Docker Image') {
+        stage('Build') {
             steps {
-                echo 'Building Docker image...'
+               
+                sh 'echo "Building the application..."'
+            }
+        }
+        stage('Test') {
+            steps {
+               
+                sh 'echo "Running tests..."'
+            }
+        }
+        stage('Dockerize') {
+            steps {
+               
+                sh 'docker build -t your-dockerhub-username/my-app:latest .'
+                
                 
             }
         }
-        stage('Login & Push') {
+        stage('Deploy') {
             steps {
-                echo 'Logging into Docker Hub and pushing image...'
-              
+               
+                sh 'echo "Deploying to EC2 server..."'
+               
             }
-        }
-    }
-    post {
-        always {
-            echo 'Pipeline execution completed!'
         }
     }
 }
